@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Re0 第四季倒计时</title>
+    <title>Re:ゼロ - 第四季倒计时</title>
     <style>
         body {
             margin: 0;
@@ -13,55 +13,125 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #121212;
-            /* 暗色背景更契合氛围 */
+            /* 使用 TMDB 的 Re:0 高清背景图 */
+            background: url('https://image.tmdb.org/t/p/original/rZvw2K3kOANP2UOSsBwK24N6Q7G.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #ffffff;
-            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Meiryo", sans-serif;
             text-align: center;
+            overflow: hidden;
         }
 
+        /* 添加一层暗色遮罩，确保文字在花哨的背景下依然清晰易读 */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1;
+        }
+
+        /* 毛玻璃质感的卡片容器 */
         .container {
-            padding: 20px;
+            position: relative;
+            z-index: 2;
+            padding: 50px 80px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            /* 兼容 Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            animation: float 6s ease-in-out infinite;
+            /* 添加悬浮动画 */
         }
 
-        .title {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #a29bfe;
-            /* 淡淡的紫色，可以自行修改 */
+        /* 呼吸悬浮动画关键帧 */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .title-jp {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #e2e8f0;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .title-cn {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #c7d2fe;
+            /* 极光淡紫色 */
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
         }
 
         .countdown {
-            font-size: 6rem;
+            font-size: 6.5rem;
             font-weight: bold;
             font-variant-numeric: tabular-nums;
-            /* 让数字等宽，避免跳动 */
-            text-shadow: 0 0 20px rgba(162, 155, 254, 0.5);
+            /* 字体使用渐变色 */
+            background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(162, 155, 254, 0.4);
+            letter-spacing: 3px;
+        }
+
+        /* 适配手机端屏幕 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .title-jp {
+                font-size: 1rem;
+            }
+
+            .title-cn {
+                font-size: 1.5rem;
+            }
+
+            .countdown {
+                font-size: 4rem;
+            }
         }
     </style>
 </head>
 
 <body>
+    <div class="overlay"></div>
 
     <div class="container">
-        <div class="title">距离Re0 第四季下一集播出还有</div>
+        <div class="title-jp">Re:ゼロから始める異世界生活 第4期<br>次回放送まであと</div>
+        <div class="title-cn">距离 Re0 第四季下一集播出还有</div>
         <div class="countdown" id="timer">计算中...</div>
     </div>
 
     <script>
         function getNextWednesdayAt10PM() {
             const now = new Date();
-            // 获取当前时间的周几 (0是周日，3是周三)
             const dayOfWeek = now.getDay();
-
-            // 计算距离下一个周三还有几天
-            // 如果今天是周三(3)，需要判断是否已经过了晚上10点
             let daysUntilWednesday = (3 - dayOfWeek + 7) % 7;
-
             const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0, 0);
 
             if (daysUntilWednesday === 0 && now.getTime() >= target.getTime()) {
-                // 如果今天是周三且过了晚上10点，目标推迟到下周三
                 daysUntilWednesday = 7;
             }
 
@@ -79,13 +149,11 @@
                 return;
             }
 
-            // 计算天、时、分、秒
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // 格式化输出为 补零格式
             const format = (num) => String(num).padStart(2, '0');
 
             let timeString = `${format(hours)}:${format(minutes)}:${format(seconds)}`;
@@ -96,7 +164,6 @@
             document.getElementById('timer').innerText = timeString;
         }
 
-        // 初始化并每秒更新
         updateTimer();
         setInterval(updateTimer, 1000);
     </script>
