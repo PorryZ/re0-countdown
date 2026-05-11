@@ -6,165 +6,640 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Re:ゼロ - 第四季倒计时</title>
     <style>
-        body {
+        /* ========== 全局重置 ========== */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background: url('EMT.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
-            font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Meiryo", sans-serif;
-            text-align: center;
+            font-family: "Yu Mincho", "MS Mincho", "Noto Serif SC", "Source Han Serif SC",
+                "Microsoft YaHei", "PingFang SC", serif;
             overflow: hidden;
+            user-select: none;
         }
 
-        /* 添加一层暗色遮罩，确保文字在花哨的背景下依然清晰易读 */
+        /* ========== 渐变遮罩：顶部透明 → 底部加深，保护脸部 ========== */
         .overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.45);
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.05) 0%,
+                    rgba(0, 0, 0, 0.10) 30%,
+                    rgba(0, 0, 0, 0.35) 60%,
+                    rgba(0, 0, 0, 0.65) 85%,
+                    rgba(0, 0, 0, 0.80) 100%);
             z-index: 1;
+            pointer-events: none;
         }
 
-        /* 毛玻璃质感的卡片容器 */
-        .container {
-            position: relative;
+        /* ========== 粒子画布 ========== */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 2;
-            padding: 50px 80px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            /* 兼容 Safari */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-            animation: float 6s ease-in-out infinite;
-            /* 添加悬浮动画 */
+            pointer-events: none;
         }
 
-        /* 呼吸悬浮动画关键帧 */
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
+        /* ========== 底部卡片容器 ========== */
+        .container {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            width: min(90vw, 960px);
+            padding: 32px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 32px;
 
-            50% {
-                transform: translateY(-12px);
+            /* 毛玻璃 + 渐变边框 */
+            background: rgba(15, 15, 30, 0.50);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 1px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            box-shadow:
+                0 12px 60px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+            animation: containerIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* 渐变边框伪元素 */
+        .container::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(135deg,
+                    rgba(168, 192, 255, 0.6),
+                    rgba(100, 80, 200, 0.3),
+                    rgba(168, 192, 255, 0.1),
+                    rgba(168, 192, 255, 0.6));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            animation: borderGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                opacity: 0.5;
             }
 
             100% {
-                transform: translateY(0px);
+                opacity: 1;
             }
         }
 
-        .title-jp {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            color: #e2e8f0;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        @keyframes containerIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
         }
 
-        .title-cn {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            color: #c7d2fe;
-            /* 极光淡紫色 */
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+        /* ========== 左侧品牌区 ========== */
+        .brand {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
         }
 
-        .countdown {
-            font-size: 6.5rem;
-            font-weight: bold;
-            font-variant-numeric: tabular-nums;
-            /* 字体使用渐变色 */
-            background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+        .rezero-logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #e8dfff 0%, #a8c0ff 50%, #7b6cf0 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(162, 155, 254, 0.4);
-            letter-spacing: 3px;
+            text-shadow: 0 0 40px rgba(162, 155, 254, 0.3);
+            line-height: 1.3;
         }
 
-        /* 适配手机端屏幕 */
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
+        .rezero-logo .sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: rgba(200, 195, 220, 0.8);
+            -webkit-text-fill-color: rgba(200, 195, 220, 0.8);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .season-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 5px 16px 5px 14px;
+            background: rgba(168, 192, 255, 0.12);
+            border: 1px solid rgba(168, 192, 255, 0.20);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            color: rgba(220, 215, 255, 0.95);
+        }
+
+        .season-badge .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #7b6cf0;
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(123, 108, 240, 0.6);
             }
 
-            .title-jp {
+            50% {
+                box-shadow: 0 0 0 6px rgba(123, 108, 240, 0);
+            }
+        }
+
+        /* ========== 右侧倒计时区 ========== */
+        .countdown-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            flex-shrink: 0;
+        }
+
+        /* 进度环 */
+        .progress-ring-container {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            flex-shrink: 0;
+        }
+
+        .progress-ring-container svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.06);
+            stroke-width: 4;
+        }
+
+        .progress-ring-fg {
+            fill: none;
+            stroke: url(#ringGrad);
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+
+        .ring-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .ring-center-text .days-num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #e8dfff, #a8c0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .ring-center-text .days-label {
+            font-size: 0.6rem;
+            color: rgba(200, 195, 220, 0.6);
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        /* 时间数字 */
+        .timer-display {
+            text-align: left;
+        }
+
+        .timer-label {
+            font-size: 0.7rem;
+            color: rgba(200, 195, 220, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .timer-numbers {
+            font-size: 3.8rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 4px;
+            font-family: "Inter", "SF Mono", "Fira Code", monospace;
+            background: linear-gradient(135deg, #ffffff 0%, #d4ccff 50%, #a8c0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px rgba(162, 155, 254, 0.2);
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        .timer-numbers .unit {
+            font-size: 1rem;
+            font-weight: 400;
+            font-family: "Yu Mincho", serif;
+            -webkit-text-fill-color: rgba(200, 195, 220, 0.4);
+            margin: 0 2px;
+        }
+
+        .next-date {
+            font-size: 0.72rem;
+            color: rgba(200, 195, 220, 0.5);
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        .next-date strong {
+            color: rgba(220, 215, 255, 0.8);
+            font-weight: 500;
+        }
+
+        /* ========== 底部进度条 ========== */
+        .weekly-bar {
+            position: absolute;
+            bottom: 0;
+            left: 24px;
+            right: 24px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .weekly-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #7b6cf0, #a8c0ff);
+            border-radius: 2px;
+            transition: width 1s ease;
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 768px) {
+            .container {
+                bottom: 20px;
+                padding: 20px 24px;
+                flex-direction: column;
+                gap: 16px;
+                width: min(94vw, 400px);
+                border-radius: 20px;
+            }
+
+            .container::before {
+                border-radius: 22px;
+            }
+
+            .brand {
+                align-items: center;
+                text-align: center;
+            }
+
+            .rezero-logo {
+                font-size: 1.2rem;
+            }
+
+            .countdown-wrapper {
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+            }
+
+            .progress-ring-container {
+                width: 80px;
+                height: 80px;
+            }
+
+            .ring-center-text .days-num {
+                font-size: 1.3rem;
+            }
+
+            .timer-numbers {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .timer-display {
+                text-align: center;
+            }
+
+            .timer-label {
+                text-align: center;
+            }
+
+            .weekly-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 18px;
+                bottom: 12px;
+            }
+
+            .timer-numbers {
+                font-size: 2rem;
+            }
+
+            .progress-ring-container {
+                width: 64px;
+                height: 64px;
+            }
+
+            .ring-center-text .days-num {
                 font-size: 1rem;
             }
 
-            .title-cn {
-                font-size: 1.5rem;
+            .rezero-logo {
+                font-size: 1rem;
             }
 
-            .countdown {
-                font-size: 4rem;
+            .season-badge {
+                font-size: 0.65rem;
+                padding: 4px 12px;
             }
         }
     </style>
 </head>
 
 <body>
+
+    <!-- 渐变遮罩 -->
     <div class="overlay"></div>
 
+    <!-- 粒子画布 -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- SVG Defs（进度环渐变色） -->
+    <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+        <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#a8c0ff" />
+                <stop offset="100%" stop-color="#7b6cf0" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- 主卡片 -->
     <div class="container">
-        <div class="title-jp">Re:ゼロから始める異世界生活 第4期<br>次回放送まであと</div>
-        <div class="title-cn">距离 Re0 第四季下一集播出还有</div>
-        <div class="countdown" id="timer">计算中...</div>
+        <!-- 左侧品牌 -->
+        <div class="brand">
+            <div class="rezero-logo">
+                Re:ゼロ
+                <span class="sub">from Zero</span>
+            </div>
+            <div class="season-badge">
+                <span class="dot"></span>
+                第四季 · 放送中
+            </div>
+        </div>
+
+        <!-- 右侧倒计时 -->
+        <div class="countdown-wrapper">
+            <div class="progress-ring-container">
+                <svg viewBox="0 0 120 120">
+                    <circle class="progress-ring-bg" cx="60" cy="60" r="52" />
+                    <circle class="progress-ring-fg" id="progress-ring" cx="60" cy="60" r="52" stroke-dasharray="326.73"
+                        stroke-dashoffset="0" />
+                </svg>
+                <div class="ring-center-text">
+                    <div class="days-num" id="days-number">0</div>
+                    <div class="days-label">DAYS</div>
+                </div>
+            </div>
+
+            <div class="timer-display">
+                <div class="timer-label">NEXT EPISODE</div>
+                <div class="timer-numbers" id="timer">
+                    <span id="hours">00</span><span class="unit">h</span>
+                    <span id="minutes">00</span><span class="unit">m</span>
+                    <span id="seconds">00</span><span class="unit">s</span>
+                </div>
+                <div class="next-date" id="next-date">次回放送：<strong>计算中...</strong></div>
+            </div>
+        </div>
+
+        <!-- 每周进度条 -->
+        <div class="weekly-bar">
+            <div class="weekly-bar-fill" id="weekly-bar-fill"></div>
+        </div>
     </div>
 
     <script>
-        function getNextWednesdayAt10PM() {
-            const now = new Date();
-            const dayOfWeek = now.getDay();
-            let daysUntilWednesday = (3 - dayOfWeek + 7) % 7;
-            const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 22, 0, 0, 0);
+        // ================================================================
+        //  1. 粒子系统
+        // ================================================================
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animId;
 
-            if (daysUntilWednesday === 0 && now.getTime() >= target.getTime()) {
-                daysUntilWednesday = 7;
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.2 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.25;
+                this.speedY = (Math.random() - 0.5) * 0.25 - 0.08;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.life = Math.random() * 300 + 200;
+                this.maxLife = this.life;
+                this.shape = Math.random() > 0.7 ? 'star' : 'circle';
             }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+                this.opacity = Math.min(this.opacity, (this.life / this.maxLife) * 0.6);
+                if (this.life <= 0 || this.x < -10 || this.x > canvas.width + 10 || this.y < -10 || this.y > canvas
+                    .height + 10) {
+                    this.reset();
+                    this.y = canvas.height + 5;
+                    this.life = this.maxLife;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#d4ccff';
+                ctx.shadowColor = '#a8c0ff';
+                ctx.shadowBlur = 8;
+                if (this.shape === 'star') {
+                    this.drawStar(ctx, this.x, this.y, this.size * 1.5);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+            drawStar(c, x, y, r) {
+                const spikes = 4;
+                const outerR = r;
+                const innerR = r * 0.5;
+                c.beginPath();
+                for (let i = 0; i < spikes * 2; i++) {
+                    const radius = i % 2 === 0 ? outerR : innerR;
+                    const angle = (i * Math.PI) / spikes - Math.PI / 2;
+                    const px = x + Math.cos(angle) * radius;
+                    const py = y + Math.sin(angle) * radius;
+                    i === 0 ? c.moveTo(px, py) : c.lineTo(px, py);
+                }
+                c.closePath();
+                c.fill();
+            }
+        }
 
-            target.setDate(target.getDate() + daysUntilWednesday);
+        function initParticles() {
+            const count = Math.min(60, Math.floor((window.innerWidth * window.innerHeight) / 15000));
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                const p = new Particle();
+                p.y = Math.random() * canvas.height;
+                p.life = Math.random() * p.maxLife;
+                particles.push(p);
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const p of particles) {
+                p.update();
+                p.draw();
+            }
+            animId = requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // ================================================================
+        //  2. 倒计时逻辑
+        // ================================================================
+        const AIRING_DAY = 3; // 周三
+        const AIRING_HOUR = 22;
+        const AIRING_MIN = 0;
+
+        // 第四季首播日期（用于推算当前集数）
+        const SEASON_START = new Date(2025, 9, 1, 22, 0, 0); // 2025-10-01 假设
+
+        function getNextAiring() {
+            const now = new Date();
+            const dow = now.getDay();
+            let daysUntil = (AIRING_DAY - dow + 7) % 7;
+            const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), AIRING_HOUR, AIRING_MIN, 0, 0);
+            if (daysUntil === 0 && now >= target) daysUntil = 7;
+            target.setDate(target.getDate() + daysUntil);
             return target;
         }
 
-        function updateTimer() {
+        function getEpisodeNumber(targetDate) {
+            const diff = targetDate - SEASON_START;
+            if (diff < 0) return 1;
+            const weeks = Math.round(diff / (7 * 24 * 60 * 60 * 1000));
+            return Math.max(1, weeks + 1);
+        }
+
+        function formatDateJP(d) {
+            const days = ['日', '月', '火', '水', '木', '金', '土'];
+            const m = d.getMonth() + 1;
+            const day = d.getDate();
+            const wd = days[d.getDay()];
+            return `${m}月${day}日（${wd}）`;
+        }
+
+        const CIRCUMFERENCE = 2 * Math.PI * 52; // r=52
+
+        function updateCountdown() {
             const now = new Date();
-            const target = getNextWednesdayAt10PM();
+            const target = getNextAiring();
             const diff = target - now;
 
             if (diff <= 0) {
-                document.getElementById('timer').innerText = "00:00:00";
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.getElementById('days-number').textContent = '0';
                 return;
             }
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            const totalSec = Math.floor(diff / 1000);
+            const days = Math.floor(totalSec / 86400);
+            const hours = Math.floor((totalSec % 86400) / 3600);
+            const mins = Math.floor((totalSec % 3600) / 60);
+            const secs = totalSec % 60;
 
-            const format = (num) => String(num).padStart(2, '0');
+            const f = (n) => String(n).padStart(2, '0');
 
-            let timeString = `${format(hours)}:${format(minutes)}:${format(seconds)}`;
-            if (days > 0) {
-                timeString = `${days}天 ` + timeString;
-            }
+            document.getElementById('hours').textContent = f(hours);
+            document.getElementById('minutes').textContent = f(mins);
+            document.getElementById('seconds').textContent = f(secs);
+            document.getElementById('days-number').textContent = days;
 
-            document.getElementById('timer').innerText = timeString;
+            // 进度环 (一周 = 604800秒)
+            const weekProgress = 1 - (diff / (7 * 86400 * 1000));
+            const offset = CIRCUMFERENCE * (1 - Math.min(1, Math.max(0, weekProgress)));
+            document.getElementById('progress-ring').setAttribute('stroke-dashoffset', offset);
+
+            // 每周进度条
+            document.getElementById('weekly-bar-fill').style.width = `${(1 - weekProgress) * 100}%`;
+
+            // 下一集日期
+            const ep = getEpisodeNumber(target);
+            document.getElementById('next-date').innerHTML =
+                `第${ep}話 · 次回放送：<strong>${formatDateJP(target)} ${f(AIRING_HOUR)}:${f(AIRING_MIN)}</strong>`;
         }
 
-        updateTimer();
-        setInterval(updateTimer, 1000);
+        updateCountdown();
+        setInterval(updateCountdown, 500);
     </script>
 </body>
 
