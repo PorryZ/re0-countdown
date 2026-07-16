@@ -46,10 +46,10 @@
             padding: 34px 40px 25px;
             top: max(50vh, 360px);
             transform: translateY(-50%);
-            background: rgba(10, 8, 25, .58);
+            background: rgba(16, 8, 18, .6);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(176, 190, 255, .3);
+            border: 1px solid rgba(255, 181, 211, .3);
             border-radius: 24px;
             box-shadow: 0 12px 60px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .08);
             animation: rise .8s cubic-bezier(.22, 1, .36, 1) both
@@ -83,7 +83,7 @@
             font-weight: 600;
             letter-spacing: 3px;
             line-height: 1.45;
-            background: linear-gradient(135deg, #f0eaff, #b8ccff 60%, #8a7cf5);
+            background: linear-gradient(135deg, #fff4f7, #ffc6df 54%, #9edcff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent
         }
@@ -94,8 +94,8 @@
             font-size: .6rem;
             font-weight: 400;
             letter-spacing: 1px;
-            color: rgba(210, 205, 230, .58);
-            -webkit-text-fill-color: rgba(210, 205, 230, .58)
+            color: rgba(238, 216, 229, .62);
+            -webkit-text-fill-color: rgba(238, 216, 229, .62)
         }
 
         .season-badge {
@@ -104,101 +104,84 @@
             gap: 8px;
             margin-top: 12px;
             padding: 6px 14px;
-            border: 1px solid rgba(168, 192, 255, .25);
+            border: 1px solid rgba(255, 176, 211, .3);
             border-radius: 99px;
-            background: rgba(168, 192, 255, .12);
+            background: rgba(234, 78, 139, .14);
             font-size: .78rem;
             letter-spacing: 1px;
-            color: #e3ddff
+            color: #ffe4ef
         }
 
         .dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: #9b88ff;
-            box-shadow: 0 0 0 0 rgba(155, 136, 255, .6);
+            background: #f45f9a;
+            box-shadow: 0 0 0 0 rgba(244, 95, 154, .6);
             animation: pulse 2s infinite
         }
 
         @keyframes pulse {
             50% {
-                box-shadow: 0 0 0 6px rgba(155, 136, 255, 0)
+                box-shadow: 0 0 0 6px rgba(244, 95, 154, 0)
             }
         }
 
         .countdown-wrapper {
             display: flex;
             align-items: center;
-            gap: 26px
+            gap: 28px
         }
 
-        .ring {
-            position: relative;
-            width: 106px;
-            height: 106px;
-            flex: none
-        }
-
-        .ring svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg)
-        }
-
-        .ring circle {
-            fill: none;
-            stroke-width: 4
-        }
-
-        .ring .base {
-            stroke: rgba(255, 255, 255, .08)
-        }
-
-        .ring .progress {
-            stroke: #b4c7ff;
-            stroke-linecap: round;
-            transition: stroke-dashoffset .8s
-        }
-
-        .ring-text {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-content: center;
+        .day-hero {
+            min-width: 138px;
+            padding-right: 27px;
+            border-right: 1px solid rgba(255, 214, 231, .2);
             text-align: center
         }
 
-        .ring-text b {
-            font-size: 1.85rem;
+        .day-hero span {
+            display: block;
+            color: rgba(245, 211, 229, .66);
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: .65rem;
+            letter-spacing: 3px
+        }
+
+        .day-hero b {
+            display: block;
+            margin: -3px 0 -7px;
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: clamp(4.5rem, 9vw, 7.2rem);
+            font-weight: 500;
+            letter-spacing: -.12em;
             line-height: 1;
-            background: linear-gradient(135deg, #fff, #a8c0ff);
+            background: linear-gradient(135deg, #fff 20%, #ffc5dc 60%, #a8dfff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent
         }
 
-        .ring-text span {
-            margin-top: 4px;
-            font-size: .55rem;
-            letter-spacing: 2px;
-            color: rgba(210, 205, 230, .6)
+        .day-hero small {
+            color: rgba(242, 211, 227, .58);
+            font-size: .63rem;
+            letter-spacing: .08em
         }
 
         .timer-label {
             font-size: .68rem;
-            color: rgba(210, 205, 230, .58);
+            color: rgba(242, 211, 227, .62);
             letter-spacing: 2px
         }
 
         .timer-numbers {
-            margin-top: 5px;
+            margin-top: 7px;
             font-family: "SF Mono", "Fira Code", monospace;
             font-size: clamp(2rem, 4.2vw, 3.7rem);
             font-weight: 700;
             line-height: 1;
             letter-spacing: 2px;
             white-space: nowrap;
-            background: linear-gradient(135deg, #fff, #d4ccff 52%, #a8c0ff);
+            background: linear-gradient(135deg, #fff, #ffd4e5 52%, #addfff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent
         }
@@ -208,25 +191,25 @@
             font-family: inherit;
             font-size: .8rem;
             font-weight: 400;
-            -webkit-text-fill-color: rgba(210, 205, 230, .5)
+            -webkit-text-fill-color: rgba(244, 211, 228, .55)
         }
 
         .next-date {
             margin-top: 8px;
             font-size: .72rem;
             letter-spacing: .6px;
-            color: rgba(210, 205, 230, .63)
+            color: rgba(241, 216, 230, .67)
         }
 
         .next-date strong {
             font-weight: 500;
-            color: rgba(235, 231, 255, .9)
+            color: #fff1f7
         }
 
         details {
             margin-top: 24px;
             padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, .1)
+            border-top: 1px solid rgba(255, 220, 235, .12)
         }
 
         summary {
@@ -235,7 +218,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            color: rgba(225, 220, 245, .88);
+            color: rgba(255, 229, 240, .9);
             font-size: .78rem;
             letter-spacing: 1px
         }
@@ -247,7 +230,7 @@
         summary::after {
             content: '＋';
             font-size: 1rem;
-            color: #b8ccff
+            color: #ff9bc6
         }
 
         details[open] summary::after {
@@ -270,19 +253,21 @@
             border-radius: 10px;
             background: rgba(255, 255, 255, .04);
             color: #e8e3ff;
-            text-decoration: none;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
             transition: .2s
         }
 
         .episode:hover {
-            background: rgba(168, 192, 255, .16);
-            border-color: rgba(168, 192, 255, .45);
+            background: rgba(234, 78, 139, .17);
+            border-color: rgba(255, 166, 207, .5);
             transform: translateY(-2px)
         }
 
         .episode-no {
             display: block;
-            color: #b8ccff;
+            color: #ffb4d4;
             font-size: .62rem;
             letter-spacing: .08em
         }
@@ -297,7 +282,7 @@
         .episode-jp {
             display: block;
             margin-top: 4px;
-            color: rgba(218, 212, 238, .64);
+            color: rgba(238, 216, 231, .68);
             font-size: .61rem;
             line-height: 1.3
         }
@@ -305,7 +290,7 @@
         .episode time {
             display: block;
             margin-top: 6px;
-            color: rgba(210, 205, 230, .48);
+            color: rgba(233, 207, 221, .52);
             font-size: .59rem
         }
 
@@ -314,18 +299,155 @@
             right: 9px;
             top: 8px;
             font-style: normal;
-            color: #b8ccff
+            color: #ff9bc6
+        }
+
+        .season-index {
+            display: flex;
+            gap: 7px;
+            margin-top: 17px
+        }
+
+        .season-index button,
+        .season-index a {
+            flex: 1;
+            padding: 8px 9px;
+            border: 1px solid rgba(255, 255, 255, .09);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .035);
+            color: rgba(238, 216, 231, .7);
+            text-align: left;
+            text-decoration: none;
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: .57rem;
+            line-height: 1.5;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .season-index button:hover,
+        .season-index a:hover {
+            border-color: rgba(255, 168, 207, .55);
+            background: rgba(234, 78, 139, .13);
+            color: #fff
+        }
+
+        .season-index b {
+            display: block;
+            font-family: inherit;
+            font-weight: 500;
+            color: #ffc4df;
+            font-size: .62rem
+        }
+
+        .season-index .current {
+            border-color: rgba(255, 168, 207, .45);
+            background: rgba(234, 78, 139, .16);
+            color: #fff
         }
 
         .source {
             margin-top: 12px;
-            color: rgba(210, 205, 230, .48);
+            color: rgba(235, 211, 225, .52);
             font-size: .65rem;
             line-height: 1.5
         }
 
         .source a {
-            color: #c4d5ff
+            color: #ffc2dd
+        }
+
+        dialog {
+            width: min(92vw, 640px);
+            max-height: 82vh;
+            padding: 0;
+            border: 1px solid rgba(255, 190, 218, .36);
+            border-radius: 20px;
+            background: rgba(27, 10, 24, .93);
+            color: #fff;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .72);
+            backdrop-filter: blur(24px)
+        }
+
+        dialog::backdrop {
+            background: rgba(7, 3, 10, .65);
+            backdrop-filter: blur(5px)
+        }
+
+        .modal-inner {
+            padding: 27px
+        }
+
+        .modal-close {
+            float: right;
+            width: 28px;
+            height: 28px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .1);
+            color: #ffe5ef;
+            font-size: 1.1rem;
+            cursor: pointer
+        }
+
+        .modal-meta {
+            margin-top: 7px;
+            color: #ffb5d5;
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: .68rem;
+            letter-spacing: .1em
+        }
+
+        .modal-cn {
+            margin: 17px 0 5px;
+            font-size: 1.35rem;
+            line-height: 1.35
+        }
+
+        .modal-jp {
+            color: rgba(245, 220, 234, .68);
+            font-size: .88rem;
+            line-height: 1.55
+        }
+
+        .modal-date {
+            margin-top: 15px;
+            color: rgba(245, 220, 234, .55);
+            font-size: .76rem
+        }
+
+        .modal-link {
+            display: flex;
+            justify-content: center;
+            margin-top: 23px;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(100deg, #e74987, #ff7cad);
+            color: #fff;
+            text-decoration: none;
+            font-size: .85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 26px rgba(231, 73, 135, .22)
+        }
+
+        .season-episodes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+            max-height: 46vh;
+            padding-right: 3px;
+            overflow: auto
+        }
+
+        .season-episodes .episode {
+            min-height: 96px
+        }
+
+        @media(max-width:500px) {
+            .season-episodes {
+                grid-template-columns: repeat(2, 1fr)
+            }
         }
 
         @media(max-width:760px) {
@@ -360,7 +482,7 @@
             }
 
             .countdown-wrapper {
-                gap: 16px
+                gap: 18px
             }
 
             .episode-list {
@@ -369,13 +491,9 @@
         }
 
         @media(max-width:390px) {
-            .ring {
-                width: 76px;
-                height: 76px
-            }
-
-            .ring-text b {
-                font-size: 1.35rem
+            .day-hero {
+                min-width: 105px;
+                padding-right: 14px
             }
 
             .timer-numbers {
@@ -383,7 +501,15 @@
             }
 
             .countdown-wrapper {
-                gap: 10px
+                gap: 12px
+            }
+
+            .season-index {
+                flex-wrap: wrap
+            }
+
+            .season-index a {
+                min-width: 42%
             }
         }
     </style>
@@ -399,12 +525,7 @@
                 <div class="season-badge"><span class="dot"></span>第四季 · 《夺还编》</div>
             </section>
             <section class="countdown-wrapper" aria-live="polite">
-                <div class="ring"><svg viewBox="0 0 120 120">
-                        <circle class="base" cx="60" cy="60" r="52" />
-                        <circle class="progress" id="ring" cx="60" cy="60" r="52" stroke-dasharray="326.73" />
-                    </svg>
-                    <div class="ring-text"><b id="days">00</b><span>DAYS</span></div>
-                </div>
+                <div class="day-hero"><span>DAY</span><b id="days">00</b><small>距离《夺还编》</small></div>
                 <div>
                     <div class="timer-label">UNTIL THE RECLAMATION ARC</div>
                     <div class="timer-numbers"><span id="hours">00</span><em>h</em> <span
@@ -413,23 +534,67 @@
                 </div>
             </section>
         </div>
-        <details>
-            <summary>在「夺还编」之前 · 《丧失编》全 11 集</summary>
-            <div class="episode-list" id="episodes"></div>
-            <p class="source">点击集数前往官方 ABEMA 播放页；播放权限因地区而异。播出信息以 <a href="https://re-zero-anime.jp/tv/onair/"
-                    target="_blank" rel="noreferrer">官方页面</a> 为准。</p>
-        </details>
+        <nav class="season-index" aria-label="Re:Zero 各季索引"><a href="#season-1"><b>1st season</b>第 1–25 话</a><a
+                href="#season-2"><b>2nd season</b>第 26–50 话</a><a href="#season-3"><b>3rd season</b>第 51–66 话</a><a
+                class="current" href="#season-4"><b>4th · Loss Arc</b>第 67–77 话</a></nav>
+        <section class="season-panels">
+            <details id="season-1">
+                <summary>第一季 · Re:从零开始的异世界生活 <span lang="ja">／ Re:ゼロから始める異世界生活</span></summary>
+                <div class="episode-list season-list" data-season="0"></div>
+            </details>
+            <details id="season-2">
+                <summary>第二季 · Re:从零开始的异世界生活 <span lang="ja">／ Re:ゼロから始める異世界生活</span></summary>
+                <div class="episode-list season-list" data-season="1"></div>
+            </details>
+            <details id="season-3">
+                <summary>第三季 · Re:从零开始的异世界生活 <span lang="ja">／ Re:ゼロから始める異世界生活</span></summary>
+                <div class="episode-list season-list" data-season="2"></div>
+            </details>
+            <details id="season-4">
+                <summary>第四季《丧失编》· Re:ゼロから始める異世界生活 4th season</summary>
+                <div class="episode-list" id="episodes"></div>
+                <p class="source">点击集数查看标题与播放入口；播放权限因地区而异。播出信息以 <a href="https://re-zero-anime.jp/tv/onair/"
+                        target="_blank" rel="noreferrer">官方页面</a> 为准。</p>
+            </details>
+        </section>
     </main>
+    <dialog id="episode-modal" aria-labelledby="modal-cn">
+        <div class="modal-inner"><button class="modal-close" id="modal-close" aria-label="关闭">×</button>
+            <div class="modal-meta" id="modal-meta"></div>
+            <h2 class="modal-cn" id="modal-cn"></h2>
+            <p class="modal-jp" id="modal-jp" lang="ja"></p>
+            <p class="modal-date" id="modal-date"></p><a class="modal-link" id="modal-link" href="#" target="_blank"
+                rel="noreferrer">前往官方播放页面 ↗</a>
+        </div>
+    </dialog>
     <script>
-        const target = new Date('2026-08-12T22:00:00+09:00'), C = 326.73, play = 'https://abema.tv/video/title/25-139?s=25-139_s4';
+        const target = new Date('2026-08-12T22:00:00+09:00'), play = 'https://abema.tv/video/title/25-139?s=25-139_s4';
         const episodes = [
-            ['04.08', '带你离开的理由／华丽猛虎·再装填', '君を連れ出す理由／ゴージャス・タイガー・リローデッド'],
-            ['04.15', '跨越砂时', '砂時間を越えろ'], ['04.22', '监视塔的守门人', '監視塔の番人'], ['04.29', '白色星空的星群', '白い星空のアステリズム'],
+            ['04.08', '带你出来的理由／华丽猛虎·重装上阵', '君を連れ出す理由／ゴージャス・タイガー・リローデッド'],
+            ['04.15', '穿越砂时间', '砂時間を越えろ'], ['04.22', '监视塔的守门人', '監視塔の番人'], ['04.29', '白色星空的星群', '白い星空のアステリズム'],
             ['05.06', '挥棒人', '棒振り'], ['05.13', '尤里乌斯·尤克历乌斯', 'ユリウス・ユークリウス'], ['05.20', '走出便利店，那里是不可思议的世界', 'コンビニを出ると、そこは不思議の世界でした'],
             ['05.27', '你是谁', 'オマエハダレダ'], ['06.03', '残骸', '残骸'], ['06.10', '杀人会成为习惯', '殺人は癖になる'], ['06.17', 'Re:从零开始的异世界生活', 'Re:ゼロから始まる異世界生活']
         ];
-        document.getElementById('episodes').innerHTML = episodes.map((e, i) => `<a class="episode" href="${play}" target="_blank" rel="noreferrer" aria-label="第${i + 1}集：${e[1]}，前往官方播放页"><span class="episode-no">第 ${i + 1} 集／EP.${67 + i}</span><span class="episode-cn">${e[1]}</span><span class="episode-jp" lang="ja">${e[2]}</span><time>2026.${e[0]} <i>↗</i></time></a>`).join('');
-        function update() { let left = Math.max(0, Math.floor((target - new Date()) / 1000)), d = Math.floor(left / 86400), h = Math.floor(left % 86400 / 3600), m = Math.floor(left % 3600 / 60), s = left % 60, f = n => String(n).padStart(2, '0'); days.textContent = d; hours.textContent = f(h); minutes.textContent = f(m); seconds.textContent = f(s); document.getElementById('ring').setAttribute('stroke-dashoffset', C * (1 - (1 - ((left % 604800) / 604800)))); if (!left) document.getElementById('next-date').innerHTML = '<strong>《夺还编》现已开播</strong>' } update(); setInterval(update, 1000);
+        const list = document.getElementById('episodes'), modal = document.getElementById('episode-modal');
+        list.innerHTML = episodes.map((e, i) => `<button class="episode" type="button" data-index="${i}" aria-label="查看第${i + 1}集：${e[1]}的播放信息"><span class="episode-no">第 ${i + 1} 集／EP.${67 + i}</span><span class="episode-cn">${e[1]}</span><span class="episode-jp" lang="ja">${e[2]}</span><time>2026.${e[0]} <i>↗</i></time></button>`).join('');
+        list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = episodes[i]; document.getElementById('modal-meta').textContent = `第 ${i + 1} 集 ／ EP.${67 + i}`; document.getElementById('modal-cn').textContent = e[1]; document.getElementById('modal-jp').textContent = e[2]; document.getElementById('modal-date').textContent = `播出日期：2026 年 ${e[0].replace('.', ' 月 ')} 日`; document.getElementById('modal-link').href = play; modal.showModal() });
+        document.getElementById('modal-close').addEventListener('click', () => modal.close()); modal.addEventListener('click', event => { if (event.target === modal) modal.close() });
+        const seasons = [
+            {
+                cn: 'Re:从零开始的异世界生活 第一季', jp: 'Re:ゼロから始める異世界生活 1st season', start: 1, url: 'https://re-zero-anime.jp/tv/story/tv1r.html', eps: [
+                    ['初始的终结与结束的开始', '始まりの終わりと終わりの始まり'], ['再遇魔女', '再会の魔女'], ['从零开始的异世界生活', 'ゼロから始まる異世界生活'], ['罗兹瓦尔邸的团聚', 'ロズワール邸の団欒'], ['约定之晨尚远', '約束した朝は遠く'], ['锁链的声响', '鎖の音'], ['菜月·昴重新开始', 'ナツキ・スバルのリスタート'], ['哭过喊过便会停止哭泣', '泣いて泣き喚いて泣き止んだから'], ['勇气的意义', '勇気の意味'], ['鬼上身的作法', '鬼がかったやり方'], ['雷姆', 'レム'], ['再访王都', '再来の王都'], ['自称骑士的菜月·昴', '自称騎士ナツキ・スバル'], ['名为绝望的疾病', '絶望という病'], ['疯狂的外侧', '狂気の外側'], ['猪的欲望', '豚の欲望'], ['丑态的尽头', '醜態の果てに'], ['从零开始', 'ゼロから'], ['白鲸攻略战', '白鯨攻略戦'], ['威尔海姆·梵·阿斯特雷亚', 'ヴィルヘルム・ヴァン・アストレア'], ['反抗绝望的赌博', '絶望に抗う賭け'], ['怠惰一闪', '怠惰一閃'], ['恶毒的怠惰', '悪辣なる怠惰'], ['自称骑士和最优秀的骑士', '自称騎士と最優の騎士'], ['仅此而已的故事', 'ただそれだけの物語']]
+            },
+            {
+                cn: 'Re:从零开始的异世界生活 第二季', jp: 'Re:ゼロから始める異世界生活 2nd season', start: 26, url: 'https://re-zero-anime.jp/tv/story/tv2r.html', eps: [
+                    ['各自的誓言', 'それぞれの誓い'], ['下一个地方', '次なる場所'], ['久候多时的重逢', '待ちかねた再会'], ['亲子', '親子'], ['踏出的一步', '踏み出した一歩'], ['少女的福音', '少女の福音'], ['朋友', 'ユージン'], ['生命的价值', '命の価値'], ['爱爱爱爱爱爱你', 'らぶらぶらぶらぶらぶらぶゆー'], ['我可是知道地狱的', '地獄なら知っている'], ['死亡的味道', '死の味'], ['魔女们的茶会', '魔女たちの茶会'], ['想哭的声音', '泣きたくなる音'], ['孤注一掷', 'STRAIGHT BET'], ['奥托·苏文／相信的理由', 'オットー・スーウェン／信じる理由'], ['奎因之石不能靠一个人搬动', 'クウェインの石は一人じゃ上がらない'], ['记忆的旅途', '記憶の旅路'], ['平家星笑的日子', '平家星の笑った日'], ['艾利欧鲁大森林的永久冻土', 'エリオール大森林の永久凍土'], ['圣域起始之初及崩坏的开始', '聖域の始まりと、崩壊の始まり'], ['咆哮的再会', '咆哮の再会'], ['映照在水面上的幸福', '水面に映る幸せ'], ['连鲜血和内脏都一并疼爱', '血と臓物まで愛して'], ['选择我吧', '俺を選べ'], ['月光下，踏着随性的舞步', '月下、出鱈目なステップ']]
+            },
+            {
+                cn: 'Re:从零开始的异世界生活 第三季', jp: 'Re:ゼロから始める異世界生活 3rd season', start: 51, url: 'https://re-zero-anime.jp/tv/story/tv3r.html', eps: [
+                    ['剧场型恶意', '劇場型悪意'], ['冰炎之结果', '氷炎の決末'], ['华丽猛虎', 'ゴージャス・タイガー'], ['都市市政厅夺还作战', '都市庁舎奪還作戦'], ['浊流', '濁流'], ['骑士的条件', '騎士の条件'], ['最新的英雄与最古老的英雄', '最も新しい英雄と最も古い英雄'], ['总有一天会喜欢上的人', 'いつか好きになる人'], ['混战都市', '混戦都市'], ['强欲攻略战', '強欲攻略戦'], ['莉莉安娜·玛斯柯瑞德', 'リリアナ・マスカレード'], ['雷格鲁斯·柯尼亚斯', 'レグルス・コルニアス'], ['战士的称赞', '戦士の称賛'], ['特蕾西亚·范·阿斯特雷亚', 'テレシア・ヴァン・アストレア'], ['丑恶的晚餐会', '醜悪なる晩餐会'], ['普利斯提拉攻防战结果', 'プリステラ攻防戦リザルト']]
+            }
+        ];
+        document.querySelectorAll('.season-list').forEach(list => { const s = seasons[Number(list.dataset.season)]; list.innerHTML = s.eps.map((e, i) => `<button class="episode" type="button" data-season="${list.dataset.season}" data-index="${i}"><span class="episode-no">第 ${s.start + i} 集／EP.${s.start + i}</span><span class="episode-cn">${e[0]}</span><span class="episode-jp" lang="ja">${e[1]}</span><time>查看播放入口 <i>↗</i></time></button>`).join(''); list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = s.eps[i], n = s.start + i; document.getElementById('modal-meta').textContent = `第 ${n} 集 ／ EP.${n}`; document.getElementById('modal-cn').textContent = e[0]; document.getElementById('modal-jp').textContent = e[1]; document.getElementById('modal-date').textContent = '点击下方链接前往官网故事页'; document.getElementById('modal-link').href = `${s.url}#${n}`; modal.showModal() }) });
+        function update() { let left = Math.max(0, Math.floor((target - new Date()) / 1000)), d = Math.floor(left / 86400), h = Math.floor(left % 86400 / 3600), m = Math.floor(left % 3600 / 60), s = left % 60, f = n => String(n).padStart(2, '0'); days.textContent = d; hours.textContent = f(h); minutes.textContent = f(m); seconds.textContent = f(s); if (!left) document.getElementById('next-date').innerHTML = '<strong>《夺还编》现已开播</strong>' } update(); setInterval(update, 1000);
         const c = document.getElementById('particle-canvas'), x = c.getContext('2d'); let p = []; function fit() { c.width = innerWidth; c.height = innerHeight } function init() { p = Array.from({ length: Math.min(55, innerWidth * innerHeight / 15000) }, () => ({ x: Math.random() * c.width, y: Math.random() * c.height, r: Math.random() * 1.6 + .4, v: Math.random() * .18 + .03, a: Math.random() * .4 + .08 })) } function draw() { x.clearRect(0, 0, c.width, c.height); p.forEach(q => { q.y -= q.v; if (q.y < 0) { q.y = c.height; q.x = Math.random() * c.width } x.globalAlpha = q.a; x.fillStyle = '#d4ccff'; x.beginPath(); x.arc(q.x, q.y, q.r, 0, 7); x.fill() }); requestAnimationFrame(draw) } addEventListener('resize', () => { fit(); init() }); fit(); init(); draw();
     </script>
 </body>
