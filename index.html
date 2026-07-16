@@ -71,31 +71,47 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 32px
+            gap: 38px
         }
 
         .brand {
             flex: 1
         }
 
-        .anime-title {
-            font-size: 1.05rem;
+        .hero-kicker {
+            color: rgba(248, 217, 232, .7);
+            font-family: "SF Mono", "Fira Code", monospace;
+            font-size: .63rem;
+            letter-spacing: 2.3px
+        }
+
+        .hero-title {
+            margin: 7px 0 5px;
+            font-size: clamp(2rem, 4.2vw, 3.65rem);
             font-weight: 600;
-            letter-spacing: 3px;
-            line-height: 1.45;
-            background: linear-gradient(135deg, #fff4f7, #ffc6df 54%, #9edcff);
+            letter-spacing: .04em;
+            line-height: 1.13;
+            background: linear-gradient(135deg, #fff9fb, #ffd0e3 54%, #a8e0ff);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 26px rgba(244, 110, 161, .16)
+        }
+
+        .anime-title {
+            font-size: .75rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            line-height: 1.45;
+            color: rgba(245, 222, 233, .74)
         }
 
         .jp-sub {
             display: block;
             margin-top: 2px;
-            font-size: .6rem;
+            font-size: .55rem;
             font-weight: 400;
             letter-spacing: 1px;
-            color: rgba(238, 216, 229, .62);
-            -webkit-text-fill-color: rgba(238, 216, 229, .62)
+            color: rgba(238, 216, 229, .52)
         }
 
         .season-badge {
@@ -302,48 +318,22 @@
             color: #ff9bc6
         }
 
-        .season-index {
-            display: flex;
-            gap: 7px;
-            margin-top: 17px
+        .season-panels {
+            margin-top: 22px
         }
 
-        .season-index button,
-        .season-index a {
-            flex: 1;
-            padding: 8px 9px;
-            border: 1px solid rgba(255, 255, 255, .09);
-            border-radius: 9px;
-            background: rgba(255, 255, 255, .035);
-            color: rgba(238, 216, 231, .7);
-            text-align: left;
-            text-decoration: none;
-            font-family: "SF Mono", "Fira Code", monospace;
-            font-size: .57rem;
-            line-height: 1.5;
-            cursor: pointer;
-            transition: .2s
+        .season-panels details {
+            margin-top: 0
         }
 
-        .season-index button:hover,
-        .season-index a:hover {
-            border-color: rgba(255, 168, 207, .55);
-            background: rgba(234, 78, 139, .13);
-            color: #fff
+        .season-panels summary {
+            font-size: .72rem;
+            color: rgba(239, 213, 227, .7)
         }
 
-        .season-index b {
-            display: block;
-            font-family: inherit;
-            font-weight: 500;
-            color: #ffc4df;
-            font-size: .62rem
-        }
-
-        .season-index .current {
-            border-color: rgba(255, 168, 207, .45);
-            background: rgba(234, 78, 139, .16);
-            color: #fff
+        .season-panels summary span {
+            font-size: .62rem;
+            color: rgba(239, 213, 227, .45)
         }
 
         .source {
@@ -481,6 +471,10 @@
                 text-align: center
             }
 
+            .hero-title {
+                font-size: 2.3rem
+            }
+
             .countdown-wrapper {
                 gap: 18px
             }
@@ -520,6 +514,8 @@
     <main class="container">
         <div class="main-row">
             <section class="brand">
+                <div class="hero-kicker">RE:ZERO · 4TH SEASON</div>
+                <h1 class="hero-title">距离《夺还编》</h1>
                 <div class="anime-title">Re:从零开始的异世界生活<span class="jp-sub">Re: Zero kara Hajimeru Isekai Seikatsu</span>
                 </div>
                 <div class="season-badge"><span class="dot"></span>第四季 · 《夺还编》</div>
@@ -534,9 +530,6 @@
                 </div>
             </section>
         </div>
-        <nav class="season-index" aria-label="Re:Zero 各季索引"><a href="#season-1"><b>1st season</b>第 1–25 话</a><a
-                href="#season-2"><b>2nd season</b>第 26–50 话</a><a href="#season-3"><b>3rd season</b>第 51–66 话</a><a
-                class="current" href="#season-4"><b>4th · Loss Arc</b>第 67–77 话</a></nav>
         <section class="season-panels">
             <details id="season-1">
                 <summary>第一季 · Re:从零开始的异世界生活 <span lang="ja">／ Re:ゼロから始める異世界生活</span></summary>
