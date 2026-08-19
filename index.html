@@ -409,7 +409,6 @@
         .modal-link {
             display: flex;
             justify-content: center;
-            margin-top: 23px;
             padding: 12px;
             border-radius: 12px;
             background: linear-gradient(100deg, #e74987, #ff7cad);
@@ -418,6 +417,55 @@
             font-size: .85rem;
             font-weight: 600;
             box-shadow: 0 10px 26px rgba(231, 73, 135, .22)
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+            margin-top: 23px
+        }
+
+        .modal-link.secondary {
+            border: 1px solid rgba(255, 190, 218, .25);
+            background: rgba(255, 255, 255, .07);
+            box-shadow: none
+        }
+
+        .resource-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 18px
+        }
+
+        .resource-link {
+            display: block;
+            padding: 16px;
+            border: 1px solid rgba(255, 190, 218, .2);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .055);
+            color: #ffe5ef;
+            text-decoration: none;
+            transition: .2s ease
+        }
+
+        .resource-link:hover {
+            border-color: rgba(255, 190, 218, .48);
+            background: rgba(255, 255, 255, .1);
+            transform: translateY(-2px)
+        }
+
+        .resource-link strong,
+        .resource-link small {
+            display: block
+        }
+
+        .resource-link small {
+            margin-top: 6px;
+            color: rgba(245, 220, 234, .55);
+            font-size: .66rem;
+            line-height: 1.45
         }
 
         .season-episodes {
@@ -437,6 +485,11 @@
         @media(max-width:500px) {
             .season-episodes {
                 grid-template-columns: repeat(2, 1fr)
+            }
+
+            .modal-actions,
+            .resource-list {
+                grid-template-columns: 1fr
             }
         }
 
@@ -544,10 +597,17 @@
                 <div class="episode-list season-list" data-season="2"></div>
             </details>
             <details id="season-4">
-                <summary>第四季《丧失编》· Re:ゼロから始める異世界生活 4th season</summary>
+                <summary>第四季《丧失编／夺还编》· Re:ゼロから始める異世界生活 4th season</summary>
                 <div class="episode-list" id="episodes"></div>
                 <p class="source">点击集数查看标题与播放入口；播放权限因地区而异。播出信息以 <a href="https://re-zero-anime.jp/tv/onair/"
                         target="_blank" rel="noreferrer">官方页面</a> 为准。</p>
+            </details>
+            <details id="radio-drama">
+                <summary>广播剧／官方广播 · Re:ゼロから始める異世界ラジオ生活</summary>
+                <div class="resource-list">
+                    <a class="resource-link" href="https://www.onsen.ag/program/rezero" target="_blank" rel="noreferrer"><strong>音泉官方节目档案 ↗</strong><small>收听节目、查看历期嘉宾与节目公告</small></a>
+                    <a class="resource-link" href="https://www.youtube.com/@Rezero_official/search?query=%E3%83%AA%E3%82%BC%E3%83%AD%E3%83%A9%E3%82%B8%E3%82%AA" target="_blank" rel="noreferrer"><strong>YouTube 官方广播 ↗</strong><small>在 Re:Zero 官方频道查看广播节目</small></a>
+                </div>
             </details>
         </section>
     </main>
@@ -556,21 +616,40 @@
             <div class="modal-meta" id="modal-meta"></div>
             <h2 class="modal-cn" id="modal-cn"></h2>
             <p class="modal-jp" id="modal-jp" lang="ja"></p>
-            <p class="modal-date" id="modal-date"></p><a class="modal-link" id="modal-link" href="#" target="_blank"
-                rel="noreferrer">前往官方播放页面 ↗</a>
+            <p class="modal-date" id="modal-date"></p>
+            <div class="modal-actions" id="modal-actions"></div>
         </div>
     </dialog>
     <script>
         const play = 'https://abema.tv/video/title/25-139?s=25-139_s4';
+        const youtube = id => id ? `https://www.youtube.com/watch?v=${id}` : null;
         const episodes = [
-            ['04.08', '带你出来的理由／华丽猛虎·重装上阵', '君を連れ出す理由／ゴージャス・タイガー・リローデッド'],
-            ['04.15', '穿越砂时间', '砂時間を越えろ'], ['04.22', '监视塔的守门人', '監視塔の番人'], ['04.29', '白色星空的星群', '白い星空のアステリズム'],
-            ['05.06', '挥棒人', '棒振り'], ['05.13', '尤里乌斯·尤克历乌斯', 'ユリウス・ユークリウス'], ['05.20', '走出便利店，那里是不可思议的世界', 'コンビニを出ると、そこは不思議の世界でした'],
-            ['05.27', '你是谁', 'オマエハダレダ'], ['06.03', '残骸', '残骸'], ['06.10', '杀人会成为习惯', '殺人は癖になる'], ['06.17', 'Re:从零开始的异世界生活', 'Re:ゼロから始まる異世界生活']
+            { date: '04.08', cn: '带你出来的理由／华丽猛虎·重装上阵', jp: '君を連れ出す理由／ゴージャス・タイガー・リローデッド', after: 'IF48QXXc5M0', breakTime: 'R4-Tcr0-tO4' },
+            { date: '04.15', cn: '穿越砂时间', jp: '砂時間を越えろ', preview: 'w-YwA0KO-fE', after: 'ydHkg8oyvZE', breakTime: 'WADtzy2DYxY' },
+            { date: '04.22', cn: '监视塔的守门人', jp: '監視塔の番人', preview: '91vm1u_r0KQ', after: 'B_GeJ4h3sCk', breakTime: '-A2r2S8v6pg' },
+            { date: '04.29', cn: '白色星空的星群', jp: '白い星空のアステリズム', preview: 'MkwDUawrDOo', after: 'zOelUxjUnA8', breakTime: 'WWMcoAGFTsU' },
+            { date: '05.06', cn: '挥棒人', jp: '棒振り', preview: 'GtvMGR7bmng', after: 'Mt9e-rC4H9U', breakTime: 'd18TLuZzOWA' },
+            { date: '05.13', cn: '尤里乌斯·尤克历乌斯', jp: 'ユリウス・ユークリウス', preview: 'K8bzcZ6Tz_E', after: 'aeHEoykWT1E', breakTime: 'M66vN5mITkA' },
+            { date: '05.20', cn: '走出便利店，那里是不可思议的世界', jp: 'コンビニを出ると、そこは不思議の世界でした', preview: '9YfMi-nKnXs', after: '1ofk1IQZAm0', breakTime: 'YVsKfjFOT7s' },
+            { date: '05.27', cn: '你是谁', jp: 'オマエハダレダ', preview: 'T33wlNOfv_g', after: 'AAjn5hz09zM', breakTime: 'UslQ05e14Ok' },
+            { date: '06.03', cn: '残骸', jp: '残骸', preview: 'LcOYA_H0hYc', after: 'j70y1n8Qyl4', breakTime: 'QGL39Tk7ulA' },
+            { date: '06.10', cn: '杀人会成为习惯', jp: '殺人は癖になる', preview: 'xc3VU4G7oIk', after: 'Ib2YVFYr5Bc', breakTime: 'BKWvnhrjlt8' },
+            { date: '06.17', cn: 'Re:从零开始的异世界生活', jp: 'Re:ゼロから始まる異世界生活', preview: 'ZOtTtPBZhRE', after: 'WreJH-PcGq4', breakTime: 'JyQ90plOPdo' },
+            { date: '08.12', cn: '今后的故事', jp: 'これからの話', preview: 'hmfFzeku6sE', after: 'NJZPhuiGxxc', breakTime: '_oFHl-pIqko' },
+            { date: '08.19', cn: '站起来', jp: '立ちなさい', preview: '90vte9_EUPI', breakTime: 'wj6mHp41hMg' }
         ];
         const list = document.getElementById('episodes'), modal = document.getElementById('episode-modal');
-        list.innerHTML = episodes.map((e, i) => `<button class="episode" type="button" data-index="${i}" aria-label="查看第${i + 1}集：${e[1]}的播放信息"><span class="episode-no">第 ${i + 1} 集／EP.${67 + i}</span><span class="episode-cn">${e[1]}</span><span class="episode-jp" lang="ja">${e[2]}</span><time>2026.${e[0]} <i>↗</i></time></button>`).join('');
-        list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = episodes[i]; document.getElementById('modal-meta').textContent = `第 ${i + 1} 集 ／ EP.${67 + i}`; document.getElementById('modal-cn').textContent = e[1]; document.getElementById('modal-jp').textContent = e[2]; document.getElementById('modal-date').textContent = `播出日期：2026 年 ${e[0].replace('.', ' 月 ')} 日`; document.getElementById('modal-link').href = play; modal.showModal() });
+        const renderModalLinks = links => {
+            const actions = document.getElementById('modal-actions');
+            actions.replaceChildren(...links.filter(link => link.url).map((link, i) => {
+                const anchor = document.createElement('a');
+                anchor.className = `modal-link${i ? ' secondary' : ''}`;
+                anchor.href = link.url; anchor.target = '_blank'; anchor.rel = 'noreferrer'; anchor.textContent = `${link.label} ↗`;
+                return anchor;
+            }));
+        };
+        list.innerHTML = episodes.map((e, i) => `<button class="episode" type="button" data-index="${i}" aria-label="查看第${i + 1}集：${e.cn}的播放信息"><span class="episode-no">第 ${i + 1} 集／EP.${67 + i}</span><span class="episode-cn">${e.cn}</span><span class="episode-jp" lang="ja">${e.jp}</span><time>2026.${e.date} <i>↗</i></time></button>`).join('');
+        list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = episodes[i]; document.getElementById('modal-meta').textContent = `第 ${i + 1} 集 ／ EP.${67 + i}`; document.getElementById('modal-cn').textContent = e.cn; document.getElementById('modal-jp').textContent = e.jp; document.getElementById('modal-date').textContent = `播出日期：2026 年 ${e.date.replace('.', ' 月 ')} 日`; renderModalLinks([{ label: '观看正片', url: play }, { label: 'WEB 预告', url: youtube(e.preview) }, { label: 'After Talk', url: youtube(e.after) }, { label: 'Break Time', url: youtube(e.breakTime) }]); modal.showModal() });
         document.getElementById('modal-close').addEventListener('click', () => modal.close()); modal.addEventListener('click', event => { if (event.target === modal) modal.close() });
         const seasons = [
             {
@@ -586,7 +665,7 @@
                     ['剧场型恶意', '劇場型悪意'], ['冰炎之结果', '氷炎の決末'], ['华丽猛虎', 'ゴージャス・タイガー'], ['都市市政厅夺还作战', '都市庁舎奪還作戦'], ['浊流', '濁流'], ['骑士的条件', '騎士の条件'], ['最新的英雄与最古老的英雄', '最も新しい英雄と最も古い英雄'], ['总有一天会喜欢上的人', 'いつか好きになる人'], ['混战都市', '混戦都市'], ['强欲攻略战', '強欲攻略戦'], ['莉莉安娜·玛斯柯瑞德', 'リリアナ・マスカレード'], ['雷格鲁斯·柯尼亚斯', 'レグルス・コルニアス'], ['战士的称赞', '戦士の称賛'], ['特蕾西亚·范·阿斯特雷亚', 'テレシア・ヴァン・アストレア'], ['丑恶的晚餐会', '醜悪なる晩餐会'], ['普利斯提拉攻防战结果', 'プリステラ攻防戦リザルト']]
             }
         ];
-        document.querySelectorAll('.season-list').forEach(list => { const s = seasons[Number(list.dataset.season)]; list.innerHTML = s.eps.map((e, i) => `<button class="episode" type="button" data-season="${list.dataset.season}" data-index="${i}"><span class="episode-no">第 ${s.start + i} 集／EP.${s.start + i}</span><span class="episode-cn">${e[0]}</span><span class="episode-jp" lang="ja">${e[1]}</span><time>查看播放入口 <i>↗</i></time></button>`).join(''); list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = s.eps[i], n = s.start + i; document.getElementById('modal-meta').textContent = `第 ${n} 集 ／ EP.${n}`; document.getElementById('modal-cn').textContent = e[0]; document.getElementById('modal-jp').textContent = e[1]; document.getElementById('modal-date').textContent = '点击下方链接前往官网故事页'; document.getElementById('modal-link').href = `${s.url}#${n}`; modal.showModal() }) });
+        document.querySelectorAll('.season-list').forEach(list => { const s = seasons[Number(list.dataset.season)]; list.innerHTML = s.eps.map((e, i) => `<button class="episode" type="button" data-season="${list.dataset.season}" data-index="${i}"><span class="episode-no">第 ${s.start + i} 集／EP.${s.start + i}</span><span class="episode-cn">${e[0]}</span><span class="episode-jp" lang="ja">${e[1]}</span><time>查看播放入口 <i>↗</i></time></button>`).join(''); list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = s.eps[i], n = s.start + i; document.getElementById('modal-meta').textContent = `第 ${n} 集 ／ EP.${n}`; document.getElementById('modal-cn').textContent = e[0]; document.getElementById('modal-jp').textContent = e[1]; document.getElementById('modal-date').textContent = '点击下方链接前往官网故事页'; renderModalLinks([{ label: '前往官网故事页', url: `${s.url}#${n}` }]); modal.showModal() }) });
         function getNextBroadcast(now = new Date()) {
             const jstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
             let daysUntilWednesday = (3 - jstNow.getUTCDay() + 7) % 7;
