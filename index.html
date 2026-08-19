@@ -623,6 +623,53 @@
     <script>
         const play = 'https://abema.tv/video/title/25-139?s=25-139_s4';
         const youtube = id => id ? `https://www.youtube.com/watch?v=${id}` : null;
+        const legacyExtras = {
+            1: { 25: { after: 'D0-IEbpuWCw' } },
+            2: {
+                26: { after: 'FyXUHZTwpPQ' },
+                27: { preview: 'x4MtlgSnuXc', after: 'gyEWVDkTCCg' },
+                28: { preview: 'SpknF0u9uEU', after: 'tMSjvqZYxsQ' },
+                29: { preview: '5o8qDgLefeA', after: '6_t9etp667c' },
+                30: { preview: 'wbqxGw5oCAc', after: 'iXWmtm_rFZA' },
+                31: { preview: 'b6LR9anohtc', after: 'rWBle599a4Q' },
+                32: { preview: 'vW0VDJuptdA', after: '-pGIkn13LpU' },
+                33: { preview: 'lFTj0fpetZ4', after: 'SPeyY-59VP8' },
+                34: { preview: 'wBYb-IER3ps', after: '6-qzQLqoaDA' },
+                35: { preview: 'dGb83Pr0Sj8', after: 'xAyLphMJ7DM' },
+                36: { preview: '4wRLIpw5pmY', after: 'mdEkVeWjTAk' },
+                37: { preview: 'YIyTG1B9Emc', after: 'JwOBRQ2JD5U' },
+                38: { preview: 'GIvzRhX1Ruc', after: 'pHQE8BmWN4o' },
+                39: { preview: 'DqukP3hf474', after: 'PiNCSV8v7sg' },
+                40: { preview: 'gdoOsclNfCc', after: 'HJmuc7h08og' },
+                41: { preview: '9G39vL5oQLc', after: 'xUEgiAS0uxY' },
+                42: { preview: '1I5KIbUPchA', after: 'ucas6Z1JLec' },
+                43: { preview: 'Xrz2NlHVeX8', after: 'Bh_OWXIISao' },
+                44: { preview: 'bYRru_8-dBY', after: 'Tm6ZsD2Tr6M' },
+                45: { preview: 'RFY0PcBKy3g', after: 'R9OCK5GcRF0' },
+                46: { preview: 'AzCE88Bolxw', after: 'oNmasul8NjM' },
+                47: { preview: 'iQHBtGbdS1o', after: 'cXRNGZE7osY' },
+                48: { preview: 'X5KvXiGSi0g', after: 'wDbAs-R5sBE' },
+                49: { preview: 'tbyVuIT3AZM', after: 'Zl4oiuP0iJw' },
+                50: { preview: 'JJKmu-HxxN0' }
+            },
+            3: {
+                51: { after: '5f5ypI0dXQE', breakTime: 'm6rPb4m0bA8' },
+                52: { preview: 'd8heKYfB_CA', after: 'xliSOJbvyC0', breakTime: 't9jlGnFvQhw' },
+                53: { preview: 'GtNIWEUEFrI', after: 'GWlF34Agit0', breakTime: 'T7vhcP-BLvY' },
+                54: { preview: 'OKv8Z7rx5Qs', after: 'YuJE6hwcWLg', breakTime: '6JNJqrwSQsg' },
+                55: { preview: 'K4ThDwCH02M', after: 'dL5ZxkRMk64', breakTime: 'KbEZQcn8c80' },
+                56: { preview: 'nLixOiekROQ', after: '_OiWPu1aFf8', breakTime: 'VvXaWBb_aRg' },
+                57: { preview: '_fg3ehCvuNQ', after: '1yHNOR6Jzng', breakTime: 'fGNmEJOFet0' },
+                58: { preview: '0m5zQrWJrNQ', after: 'BFgp7XiJNJI', breakTime: 'Pkjo0T1pGaw' },
+                60: { preview: 'KaZU6FxZzW0' },
+                61: { preview: 'rc0OzVRuABM' },
+                62: { preview: 'OGHklj3jLzo' },
+                63: { preview: 'RrVl4irMekY' },
+                64: { preview: 'LZUdui6UUqY' },
+                65: { preview: 'S2Npp3C5KYU' },
+                66: { preview: 'zvI6IgksjK8' }
+            }
+        };
         const episodes = [
             { date: '04.08', cn: '带你出来的理由／华丽猛虎·重装上阵', jp: '君を連れ出す理由／ゴージャス・タイガー・リローデッド', after: 'IF48QXXc5M0', breakTime: 'R4-Tcr0-tO4' },
             { date: '04.15', cn: '穿越砂时间', jp: '砂時間を越えろ', preview: 'w-YwA0KO-fE', after: 'ydHkg8oyvZE', breakTime: 'WADtzy2DYxY' },
@@ -653,19 +700,19 @@
         document.getElementById('modal-close').addEventListener('click', () => modal.close()); modal.addEventListener('click', event => { if (event.target === modal) modal.close() });
         const seasons = [
             {
-                cn: 'Re:从零开始的异世界生活 第一季', jp: 'Re:ゼロから始める異世界生活 1st season', start: 1, url: 'https://re-zero-anime.jp/tv/story/tv1r.html', eps: [
+                cn: 'Re:从零开始的异世界生活 第一季', jp: 'Re:ゼロから始める異世界生活 1st season', start: 1, url: 'https://re-zero-anime.jp/tv/story/tv1r.html?st=1', eps: [
                     ['初始的终结与结束的开始', '始まりの終わりと終わりの始まり'], ['再遇魔女', '再会の魔女'], ['从零开始的异世界生活', 'ゼロから始まる異世界生活'], ['罗兹瓦尔邸的团聚', 'ロズワール邸の団欒'], ['约定之晨尚远', '約束した朝は遠く'], ['锁链的声响', '鎖の音'], ['菜月·昴重新开始', 'ナツキ・スバルのリスタート'], ['哭过喊过便会停止哭泣', '泣いて泣き喚いて泣き止んだから'], ['勇气的意义', '勇気の意味'], ['鬼上身的作法', '鬼がかったやり方'], ['雷姆', 'レム'], ['再访王都', '再来の王都'], ['自称骑士的菜月·昴', '自称騎士ナツキ・スバル'], ['名为绝望的疾病', '絶望という病'], ['疯狂的外侧', '狂気の外側'], ['猪的欲望', '豚の欲望'], ['丑态的尽头', '醜態の果てに'], ['从零开始', 'ゼロから'], ['白鲸攻略战', '白鯨攻略戦'], ['威尔海姆·梵·阿斯特雷亚', 'ヴィルヘルム・ヴァン・アストレア'], ['反抗绝望的赌博', '絶望に抗う賭け'], ['怠惰一闪', '怠惰一閃'], ['恶毒的怠惰', '悪辣なる怠惰'], ['自称骑士和最优秀的骑士', '自称騎士と最優の騎士'], ['仅此而已的故事', 'ただそれだけの物語']]
             },
             {
-                cn: 'Re:从零开始的异世界生活 第二季', jp: 'Re:ゼロから始める異世界生活 2nd season', start: 26, url: 'https://re-zero-anime.jp/tv/story/tv2r.html', eps: [
+                cn: 'Re:从零开始的异世界生活 第二季', jp: 'Re:ゼロから始める異世界生活 2nd season', start: 26, url: 'https://re-zero-anime.jp/tv/story/tv2.html', eps: [
                     ['各自的誓言', 'それぞれの誓い'], ['下一个地方', '次なる場所'], ['久候多时的重逢', '待ちかねた再会'], ['亲子', '親子'], ['踏出的一步', '踏み出した一歩'], ['少女的福音', '少女の福音'], ['朋友', 'ユージン'], ['生命的价值', '命の価値'], ['爱爱爱爱爱爱你', 'らぶらぶらぶらぶらぶらぶゆー'], ['我可是知道地狱的', '地獄なら知っている'], ['死亡的味道', '死の味'], ['魔女们的茶会', '魔女たちの茶会'], ['想哭的声音', '泣きたくなる音'], ['孤注一掷', 'STRAIGHT BET'], ['奥托·苏文／相信的理由', 'オットー・スーウェン／信じる理由'], ['奎因之石不能靠一个人搬动', 'クウェインの石は一人じゃ上がらない'], ['记忆的旅途', '記憶の旅路'], ['平家星笑的日子', '平家星の笑った日'], ['艾利欧鲁大森林的永久冻土', 'エリオール大森林の永久凍土'], ['圣域起始之初及崩坏的开始', '聖域の始まりと、崩壊の始まり'], ['咆哮的再会', '咆哮の再会'], ['映照在水面上的幸福', '水面に映る幸せ'], ['连鲜血和内脏都一并疼爱', '血と臓物まで愛して'], ['选择我吧', '俺を選べ'], ['月光下，踏着随性的舞步', '月下、出鱈目なステップ']]
             },
             {
-                cn: 'Re:从零开始的异世界生活 第三季', jp: 'Re:ゼロから始める異世界生活 3rd season', start: 51, url: 'https://re-zero-anime.jp/tv/story/tv3r.html', eps: [
+                cn: 'Re:从零开始的异世界生活 第三季', jp: 'Re:ゼロから始める異世界生活 3rd season', start: 51, url: 'https://re-zero-anime.jp/tv/story/tv3.html', eps: [
                     ['剧场型恶意', '劇場型悪意'], ['冰炎之结果', '氷炎の決末'], ['华丽猛虎', 'ゴージャス・タイガー'], ['都市市政厅夺还作战', '都市庁舎奪還作戦'], ['浊流', '濁流'], ['骑士的条件', '騎士の条件'], ['最新的英雄与最古老的英雄', '最も新しい英雄と最も古い英雄'], ['总有一天会喜欢上的人', 'いつか好きになる人'], ['混战都市', '混戦都市'], ['强欲攻略战', '強欲攻略戦'], ['莉莉安娜·玛斯柯瑞德', 'リリアナ・マスカレード'], ['雷格鲁斯·柯尼亚斯', 'レグルス・コルニアス'], ['战士的称赞', '戦士の称賛'], ['特蕾西亚·范·阿斯特雷亚', 'テレシア・ヴァン・アストレア'], ['丑恶的晚餐会', '醜悪なる晩餐会'], ['普利斯提拉攻防战结果', 'プリステラ攻防戦リザルト']]
             }
         ];
-        document.querySelectorAll('.season-list').forEach(list => { const s = seasons[Number(list.dataset.season)]; list.innerHTML = s.eps.map((e, i) => `<button class="episode" type="button" data-season="${list.dataset.season}" data-index="${i}"><span class="episode-no">第 ${s.start + i} 集／EP.${s.start + i}</span><span class="episode-cn">${e[0]}</span><span class="episode-jp" lang="ja">${e[1]}</span><time>查看播放入口 <i>↗</i></time></button>`).join(''); list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = s.eps[i], n = s.start + i; document.getElementById('modal-meta').textContent = `第 ${n} 集 ／ EP.${n}`; document.getElementById('modal-cn').textContent = e[0]; document.getElementById('modal-jp').textContent = e[1]; document.getElementById('modal-date').textContent = '点击下方链接前往官网故事页'; renderModalLinks([{ label: '前往官网故事页', url: `${s.url}#${n}` }]); modal.showModal() }) });
+        document.querySelectorAll('.season-list').forEach(list => { const seasonIndex = Number(list.dataset.season), s = seasons[seasonIndex]; list.innerHTML = s.eps.map((e, i) => `<button class="episode" type="button" data-season="${list.dataset.season}" data-index="${i}"><span class="episode-no">第 ${s.start + i} 集／EP.${s.start + i}</span><span class="episode-cn">${e[0]}</span><span class="episode-jp" lang="ja">${e[1]}</span><time>查看播放入口 <i>↗</i></time></button>`).join(''); list.addEventListener('click', event => { const card = event.target.closest('.episode'); if (!card) return; const i = Number(card.dataset.index), e = s.eps[i], n = s.start + i, extras = legacyExtras[seasonIndex + 1]?.[n] || {}; document.getElementById('modal-meta').textContent = `第 ${n} 集 ／ EP.${n}`; document.getElementById('modal-cn').textContent = e[0]; document.getElementById('modal-jp').textContent = e[1]; document.getElementById('modal-date').textContent = '已收录官网目前仍可访问的配套内容'; renderModalLinks([{ label: '官网故事页', url: `${s.url}#EP${i + 1}` }, { label: 'WEB 预告', url: youtube(extras.preview) }, { label: 'After Talk', url: youtube(extras.after) }, { label: 'Break Time', url: youtube(extras.breakTime) }]); modal.showModal() }) });
         function getNextBroadcast(now = new Date()) {
             const jstNow = new Date(now.getTime() + 9 * 60 * 60 * 1000);
             let daysUntilWednesday = (3 - jstNow.getUTCDay() + 7) % 7;
